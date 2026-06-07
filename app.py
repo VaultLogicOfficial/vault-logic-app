@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import time
 import hashlib
-
 from valuation import ValuationEngine
 
 # --- INITIALIZATION ---
@@ -73,14 +72,14 @@ else:
     </div>
     ''', unsafe_allow_html=True)
     st.write("") # Add a little breathing room
-    # --- DYNAMIC DATA & TREND CHART ---
-    live_data = ValuationEngine.get_valuation(decal_id)
-    st.metric(
-        label="Live Market Appraisal",
-        value=f"${live_data['value']:.2f}",
-        delta=f"{live_data['trend']}%"
-    )
-
+    
+     # --- DYNAMIC DATA & TREND CHART ---
+    engine = ValuationEngine()
+live_data = engine.calculate_asset_value(
+    card_name="Sample", 
+    grade="PSA 10", 
+    current_market_price=100.0
+)
     chart_data = pd.DataFrame(live_data.get('history', [0, 0]), columns=['Appraisal Value'])
     st.line_chart(chart_data, use_container_width=True)
 
