@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 import time
+import valuation
+
+from valuation import ValuationEngine
 
 # --- INITIALIZATION ---
 # This ensures the variable exists before the rest of your code tries to use it
