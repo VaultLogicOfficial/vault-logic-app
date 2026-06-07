@@ -81,7 +81,7 @@ live_data = engine.calculate_asset_value(
     current_market_price=100.0
 )
     
-    st.metric(label="Live Market Appraisal", value=f"${live_data:,.2f}")
+st.metric(label="Live Market Appraisal", value=f"${live_data:,.2f}")
 
     # --- PROVENANCE LOG ---
     st.write("### Provenance & History")
