@@ -2,6 +2,11 @@ import streamlit as st
 import pandas as pd
 import time
 
+# --- INITIALIZATION ---
+# This ensures the variable exists before the rest of your code tries to use it
+if "asset_authenticated" not in st.session_state:
+    st.session_state.asset_authenticated = False
+
 # --- PAGE CONFIG ---
 st.set_page_config(page_title="Vault Logic Ledger", layout="centered")
 
@@ -18,6 +23,10 @@ st.markdown("""
 # --- AUTHENTICATION LOGIC ---
 query_params = st.query_params
 decal_id = query_params.get("decal_id")
+
+# Guard: Ensure decal_id is treated as a string or empty if missing
+if decal_id is None:
+    decal_id = ""
 
 if decal_id:
     st.session_state.asset_authenticated = True
@@ -88,10 +97,19 @@ else:
             <p style="color: #888; margin: 0; font-size: 0.9em;">{item['detail']}</p>
         </div>
         ''', unsafe_allow_html=True)
-
-    # --- CALL TO ACTION ---
-    if st.button("Upgrade to Vault Logic Premium"):
-        st.write("Unlock full analytics at: [VaultLogicSystems.com](https://VaultLogicSystems.com)")
-        
+    # --- PREMIUM TIER GATE ---
+    st.markdown("---") # Visual divider to separate history from the subscription offer
+    if st.session_state.get('is_premium', False):
+        st.success("✨ Vault Logic Premium Active")
+        st.write("Full analytics, advanced security alerts, and insurance integration are enabled.")
+    else:
+        st.warning("🔒 Premium Tools Locked")
+        # Now, the Call to Action sits directly below this warning
+        if st.button("Upgrade to Vault Logic Premium"):
+            st.write("Unlock full analytics at: [VaultLogicSystems.com](https://VaultLogicSystems.com)")
+    
+    # --- FINAL ACTIONS ---
     if st.button("Contact Vault Logic Support"):
         st.write("Inquiries: [VaultLogicSystems.com](https://VaultLogicSystems.com)")
+    
+    
