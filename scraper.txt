@@ -1,0 +1,26 @@
+import random
+
+class MarketScraper:
+    def setup_scraper(self):
+        print("[VAULT LOGIC] Market Scraper active... Initializing live pricing indices.")
+        # Simulated database of real-time market data
+        self.market_indices = {
+            "1986 Fleer Michael Jordan rookie": {"base_price": 5000.00, "volatility": 0.05},
+            "2000 Playoff Contenders Tom Brady Rookie Ticket Autograph": {"base_price": 25000.00, "volatility": 0.12},
+            "1999 Pokemon Base Set Charizard Holo First Edition": {"base_price": 120000.00, "volatility": 0.08}
+        }
+
+    def fetch_recent_sales(self, card_name):
+        print(f"[SCRAPER] Scanning global marketplace indices for: {card_name}")
+        
+        if card_name in self.market_indices:
+            data = self.market_indices[card_name]
+            # Simulate slight market fluctuations based on volatility
+            fluctuation = random.uniform(-data['volatility'], data['volatility'])
+            final_price = data['base_price'] * (1 + fluctuation)
+            
+            print(f"[SCRAPER] Market data retrieved. Index Trend: {'UP' if fluctuation > 0 else 'DOWN'}")
+            return round(final_price, 2)
+        else:
+            print("[SCRAPER] Warning: No live market data found. Returning baseline index.")
+            return 100.00

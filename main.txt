@@ -1,0 +1,87 @@
+import asyncio
+from fastapi import FastAPI, Depends, HTTPException, status
+
+# 1. Load Scanner Module
+scanner_data = {}
+with open("scanner.txt", "r") as f:
+    exec(f.read(), scanner_data)
+SlabScanner = scanner_data["SlabScanner"]
+
+# 2. Load Valuation Module
+valuation_data = {}
+with open("valuation.txt", "r") as f:
+    exec(f.read(), valuation_data)
+ValuationEngine = valuation_data["ValuationEngine"]
+
+# 3. Load Scraper Module
+scraper_data = {}
+with open("scraper.txt", "r") as f:
+    exec(f.read(), scraper_data)
+MarketScraper = scraper_data["MarketScraper"]
+
+# 4. Load Caster Module
+caster_data = {}
+with open("caster.txt", "r") as f:
+    exec(f.read(), caster_data)
+StreamingController = caster_data["StreamingController"]
+
+# 5. Load Auth Module
+auth_data = {}
+with open("auth.txt", "r") as f:
+    exec(f.read(), auth_data)
+SecurityVault = auth_data["SecurityVault"]
+# Initialize the main Vault Logic App framework
+app = FastAPI(title="Vault Logic Core Ecosystem Engine")
+
+# Instantiate your core engineering modules
+scanner = SlabScanner()
+scanner.setup_scanner()
+
+scraper = MarketScraper()
+scraper.setup_scraper()
+
+caster = StreamingController()
+caster.setup_caster()
+
+vault = SecurityVault()
+vault.setup_vault("VAULT_LOGIC_SECURE_TOKEN_2026")
+
+valuation = ValuationEngine()
+valuation.setup_engine("VL_PROD_DATA_NET_99")
+
+# 6. Load Ledger Module
+ledger_data = {}
+with open("ledger.txt", "r") as f:
+    exec(f.read(), ledger_data)
+LedgerSystem = ledger_data["LedgerSystem"]
+
+# Initialize it
+ledger = LedgerSystem()
+# --- Vault Logic System: Always-On Terminal ---
+print("\n[SYSTEM READY] Vault Logic Terminal Online. Awaiting input...")
+
+while True:
+    # Get Decal ID from user (or simulated scan)
+    decal_input = input("\n[INPUT] Scan Decal ID (or type 'exit' to shut down): ")
+    
+    if decal_input.lower() == 'exit':
+        print("[SYSTEM] Shutting down Vault Logic. Goodbye!")
+        break
+        
+    # Run the processing lifecycle
+    scanned_card = scanner.scan_decal(decal_input)
+    
+    if scanned_card["status"] == "VERIFIED":
+        card_title = scanned_card["card_name"]
+        card_grade = scanned_card["grade"]
+        
+        print(f"[SYSTEM CONTROL] Processing: {card_title}")
+        live_comp = scraper.fetch_recent_sales(card_title)
+        portfolio_value = valuation.calculate_asset_value(card_title, card_grade, live_comp)
+        
+        # Save to Ledger
+        ledger.log_transaction(scanned_card, portfolio_value)
+        
+        print(f"[VAULT DISPLAY] Appraisal Complete: ${portfolio_value:,}")
+    else:
+        print("[SYSTEM] Scan failed. Please try a valid Decal ID.")

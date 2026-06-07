@@ -1,0 +1,10 @@
+import datetime
+
+class LedgerSystem:
+    def log_transaction(self, asset_info, appraisal_value):
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        entry = f"[{timestamp}] ASSET: {asset_info['card_name']} | GRADE: {asset_info['grade']} | VALUE: ${appraisal_value:,.2f}\n"
+        
+        with open("vault_ledger.txt", "a") as f:
+            f.write(entry)
+        print(f"[LEDGER] Transaction recorded to vault_ledger.txt")

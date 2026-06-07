@@ -1,0 +1,3 @@
+class StreamingController:
+    def setup_caster(self):
+        print("[VAULT LOGIC] Streaming Controller active... Cast link ready!")
