@@ -80,8 +80,8 @@ live_data = engine.calculate_asset_value(
     grade="PSA 10", 
     current_market_price=100.0
 )
-    chart_data = pd.DataFrame(live_data.get('history', [0, 0]), columns=['Appraisal Value'])
-    st.line_chart(chart_data, use_container_width=True)
+    
+    st.metric(label="Live Market Appraisal", value=f"${live_data:,.2f}")
 
     # --- PROVENANCE LOG ---
     st.write("### Provenance & History")
