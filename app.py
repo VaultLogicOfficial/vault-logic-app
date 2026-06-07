@@ -84,21 +84,23 @@ live_data = engine.calculate_asset_value(
 st.metric(label="Live Market Appraisal", value=f"${live_data:,.2f}")
 
     # --- PROVENANCE LOG ---
-    st.write("### Provenance & History")
-    history_events = [
-        {"date": "2026-06-01", "event": "Last Professional Appraisal", "detail": "Certified Grade: Mint"},
-        {"date": "2025-11-15", "event": "Ownership Transfer", "detail": "Transferred to Vault Logic Secure Storage"},
-        {"date": "2024-03-10", "event": "Initial Authentication", "detail": "Origin Verified by Vault Logic"}
-    ]
-    
-    for item in history_events:
-        st.markdown(f'''
-        <div style="border-left: 2px solid #00ff6e; padding-left: 15px; margin-bottom: 20px;">
+ # --- PROVENANCE LOG ---
+st.write("### Provenance & History")
+history_events = [
+    {"date": "2026-06-01", "event": "Last Professional Appraisal", "detail": "Certified"},
+    {"date": "2025-11-15", "event": "Ownership Transfer", "detail": "Transferred"},
+    {"date": "2024-03-10", "event": "Initial Authentication", "detail": "Authenticated"}
+]
+
+for item in history_events:
+    st.markdown(f'''
+        <div style="border-left: 2px solid #00ff6e; padding-left: 15px; margin-bottom: 10px;">
             <p style="color: #00ff6e; font-weight: bold; margin: 0;">{item['date']}</p>
             <p style="margin: 0; font-size: 1.1em;">{item['event']}</p>
             <p style="color: #888; margin: 0; font-size: 0.9em;">{item['detail']}</p>
         </div>
-        ''', unsafe_allow_html=True)
+    ''', unsafe_allow_html=True)  
+
     # --- PREMIUM TIER GATE ---
     st.markdown("---") # Visual divider to separate history from the subscription offer
     if st.session_state.get('is_premium', False):
