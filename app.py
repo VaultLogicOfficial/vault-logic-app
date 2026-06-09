@@ -1,6 +1,18 @@
 import streamlit as st
 
-# 1. Page Configuration
+from auth import SecurityVault
+
+# 1. Initialize the Vault (The Door)
+vault = SecurityVault()
+password = st.sidebar.text_input("Enter Vault Key", type="password")
+
+# 2. The Checkpoint (The Lock)
+if password != "SECRET123": 
+    st.warning("Access Denied: Please enter the correct Vault Key.")
+    st.stop() 
+
+# 3. The Display Layer (The Room - keep your existing code here)
+
 st.set_page_config(page_title="Vault Logic", layout="centered")
 
 # 2. Main Title
