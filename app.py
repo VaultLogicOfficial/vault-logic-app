@@ -20,7 +20,6 @@ st.title("Vault Logic Official")
 
 # 1. The Intelligence Header
 st.metric("Current Asset Value", "$125,000", "+5.2%")
-
 # 2. The Navigation Vault
 with st.expander("View Provenance History"):
     history_events = [
@@ -28,12 +27,17 @@ with st.expander("View Provenance History"):
         {"date": "2025-11-15", "event": "Ownership Transfer", "detail": "Transferred"},
         {"date": "2024-03-10", "event": "Initial Authentication", "detail": "Authenticated"}
     ]
+    
+    # Notice this is now indented under the 'with' statement
+    for item in history_events:
+        st.markdown(f'''
+            <div style="border-left: 2px solid #00ff6e; padding-left: 15px; margin-bottom: 10px;">
+            <p style="color: #00ff6e; font-weight: bold; margin: 0;">{item['date']}</p>
+            <p style="margin: 0; font-size: 1.1em;">{item['event']}</p>
+            <p style="color: #888; margin: 0; font-size: 0.9em;">{item['detail']}</p>
+            </div>
+        ''', unsafe_allow_html=True)
 
-  for item in history_events:
-      st.markdown(f'''
-          <div style="border-left: 2px solid #00ff6e; padding-left: 15px; margin-bottom: 10px;">
-          <p style="color: #00ff6e; font-weight: bold; margin: 0;">{item['date']}</p>
-          <p style="margin: 0; font-size: 1.1em;">{item['event']}</p>
-          <p style="color: #888; margin: 0; font-size: 0.9em;">{item['detail']}</p>
-          </div>
-      ''', unsafe_allow_html=True)
+
+
+
