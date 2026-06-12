@@ -20,16 +20,19 @@ st.title("Vault Logic Official")
 
 # 1. The Intelligence Header
 st.metric("Current Asset Value", "$125,000", "+5.2%")
-# 2. The Navigation Vault
+
+import pandas as pd
+import plotly.express as px
+import streamlit as st
+
+# The Navigation Vault - Now Dynamic
 with st.expander("View Provenance History"):
-    history_events = [
-        {"date": "2026-06-01", "event": "Last Professional Appraisal", "detail": "Certified"},
-        {"date": "2025-11-15", "event": "Ownership Transfer", "detail": "Transferred"},
-        {"date": "2024-03-10", "event": "Initial Authentication", "detail": "Authenticated"}
-    ]
+    # Load the data directly from the CSV
+    df = pd.read_csv("history.csv")
     
-    # Notice this is now indented under the 'with' statement
-    for item in history_events:
+    # Iterate through the rows of the CSV
+    for index, item in df.iterrows():
+
         st.markdown(f'''
             <div style="border-left: 2px solid #00ff6e; padding-left: 15px; margin-bottom: 10px;">
             <p style="color: #00ff6e; font-weight: bold; margin: 0;">{item['date']}</p>
@@ -38,6 +41,32 @@ with st.expander("View Provenance History"):
             </div>
         ''', unsafe_allow_html=True)
 
+# The Growth Chart (New Addition)
+st.subheader("Asset Performance")
+# 'df' already contains the 'value' column from your CSV
+fig = px.line(df, x='date', y='value', markers=True, line_shape='spline')
+fig.update_traces(line_color='#00ff6e') 
+fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
+st.plotly_chart(fig, use_container_width=True)
+
+
+# The Submission Portal
+with st.expander("Add New Provenance Record"):
+    with st.form("entry_form"):
+        new_date = st.date_input("Date")
+        new_event = st.text_input("Event")
+        new_detail = st.text_input("Detail")
+        new_value = st.number_input("Value", min_value=0)
+        
+        submitted = st.form_submit_button("Commit to Ledger")
+        
+        if submitted:
+            # Create a new row
+            new_data = pd.DataFrame([[new_date, new_event, new_detail, new_value]], 
+                                    columns=['date', 'event', 'detail', 'value'])
+            # Append to your existing file
+            new_data.to_csv("history.csv", mode='a', header=False, index=False)
+            st.success("Record committed to the global ledger.")
 
 
 
