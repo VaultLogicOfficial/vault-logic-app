@@ -41,13 +41,23 @@ with st.expander("View Provenance History"):
             </div>
         ''', unsafe_allow_html=True)
 
-# The Growth Chart (New Addition)
+# The Growth Chart (Vault Logic Discovery Edition)
 st.subheader("Asset Performance")
 # 'df' already contains the 'value' column from your CSV
 fig = px.line(df, x='date', y='value', markers=True, line_shape='spline')
-fig.update_traces(line_color='#00ff6e') 
-fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
+
+# Applying the Legends Palette aesthetic
+fig.update_traces(line_color='#D4AF37') # Legend Gold
+
+fig.update_layout(
+    plot_bgcolor='#2E2E2E', # Gotham Matte
+    paper_bgcolor='#2E2E2E',
+    font_color='#FFFFFF',
+    xaxis=dict(showgrid=True, gridcolor='#444444'),
+    yaxis=dict(showgrid=True, gridcolor='#444444')
+)
 st.plotly_chart(fig, use_container_width=True)
+
 
 
 # The Submission Portal
