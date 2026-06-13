@@ -13,19 +13,33 @@ if password != "SECRET123":
 
 # 3. The Display Layer (The Room - keep your existing code here)
 
-st.set_page_config(page_title="Vault Logic", layout="centered")
-
-# 2. Main Title
-st.title("Vault Logic Official")
-
-# 1. The Intelligence Header
-st.metric("Current Asset Value", "$125,000", "+5.2%")
-
 import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-# The Navigation Vault - Now Dynamic
+st.set_page_config(page_title="Vault Logic", layout="centered")
+
+# 3. PASSWORD CHECK
+# (Assuming your 'password' variable is defined above this or from a text_input)
+if password != "SECRET123":
+    st.warning("Access Denied: Please enter the correct Vault Key.")
+    st.stop()
+
+# 4. Main Title
+st.title("Vault Logic Official")
+st.metric("Current Asset Value", "$125,000", "+5.2%")
+
+# 5. ---GATEWAY HEADER  ---
+st.markdown("""
+    <div style="background-color: #2E2E2E; padding: 20px; border-radius: 10px; border: 2px solid #D4AF37;">
+        <h1 style="color: #D4AF37; text-align: center; font-family: sans-serif;">Vault Logic Discovery</h1>
+        <p style="color: #FFFFFF; text-align: center; font-size: 1.2em;">Discovery Authorized: Official Asset Ledger</p>
+    </div>
+""", unsafe_allow_html=True)
+st.write("")
+
+
+# 6. The Navigation Vault - Now Dynamic
 with st.expander("View Provenance History"):
     # Load the data directly from the CSV
     df = pd.read_csv("history.csv")
