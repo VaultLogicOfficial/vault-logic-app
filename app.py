@@ -1,33 +1,24 @@
 import streamlit as st
-
+import pandas as pd
+import plotly.express as px
 from auth import SecurityVault
 
-# 1. Initialize the Vault (The Door)
+# Page Configuration
+st.set_page_config(page_title="Vault Logic", layout="centered")
+
+# 1. Initialize the Vault
 vault = SecurityVault()
 password = st.sidebar.text_input("Enter Vault Key", type="password")
 
-# 2. The Checkpoint (The Lock)
-if password != "SECRET123": 
-    st.warning("Access Denied: Please enter the correct Vault Key.")
-    st.stop() 
-
-# 3. The Display Layer (The Room - keep your existing code here)
-
-import pandas as pd
-import plotly.express as px
-import streamlit as st
-
-st.set_page_config(page_title="Vault Logic", layout="centered")
-
-# 3. PASSWORD CHECK
-# (Assuming your 'password' variable is defined above this or from a text_input)
+# 2. Security Check
 if password != "SECRET123":
     st.warning("Access Denied: Please enter the correct Vault Key.")
     st.stop()
 
-# 4. Main Title
+# 3. Main Display
 st.title("Vault Logic Official")
 st.metric("Current Asset Value", "$125,000", "+5.2%")
+
 
 # 5. ---GATEWAY HEADER  ---
 st.markdown("""
@@ -40,20 +31,7 @@ st.write("")
 
 
 # 6. The Navigation Vault - Now Dynamic
-with st.expander("View Provenance History"):
-    # Load the data directly from the CSV
-    df = pd.read_csv("history.csv")
-    
-    # Iterate through the rows of the CSV
-    for index, item in df.iterrows():
 
-        st.markdown(f'''
-            <div style="border-left: 2px solid #00ff6e; padding-left: 15px; margin-bottom: 10px;">
-            <p style="color: #00ff6e; font-weight: bold; margin: 0;">{item['date']}</p>
-            <p style="margin: 0; font-size: 1.1em;">{item['event']}</p>
-            <p style="color: #888; margin: 0; font-size: 0.9em;">{item['detail']}</p>
-            </div>
-        ''', unsafe_allow_html=True)
 
 # The Growth Chart (Vault Logic Discovery Edition)
 st.subheader("Asset Performance")
@@ -72,9 +50,26 @@ fig.update_layout(
 )
 st.plotly_chart(fig, use_container_width=True)
 
+st.markdown("""
+    <style>
+    /* Styling the text input fields */
+    div[data-baseweb="input"] {
+        border: 2px solid #D4AF37 !important;
+        background-color: #2E2E2E !important;
+    }
+    /* Making sure the text inside the fields is visible */
+    input {
+        color: #FFFFFF !important;
+    }
+    /* Styling the label text */
+    label {
+        color: #D4AF37 !important;
+        font-weight: bold !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
-
-# The Submission Portal
+   # The Submission Portal
 with st.expander("Add New Provenance Record"):
     with st.form("entry_form"):
         new_date = st.date_input("Date")
