@@ -36,6 +36,7 @@ st.write("")
 # The Growth Chart (Vault Logic Discovery Edition)
 st.subheader("Asset Performance")
 # 'df' already contains the 'value' column from your CSV
+df = pd.read_csv("history.csv")
 fig = px.line(df, x='date', y='value', markers=True, line_shape='spline')
 
 # Applying the Legends Palette aesthetic
